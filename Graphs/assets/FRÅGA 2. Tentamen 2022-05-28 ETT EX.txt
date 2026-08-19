@@ -1,0 +1,447 @@
+FRÅGA 2. Tentamen 2022-05-28 ETT EXEMPEL NÄR MAN SKA SKRIVA KOD MED ARVSHIERARKI. 
+
+
+public interface Item() {
+
+public double getPrice();
+
+}
+
+			FORDON-KLASSEN!
+
+
+public abstract class Fordon implements Item(){
+private double price;
+
+
+public Fordon( double price){
+this.price = price;
+
+}
+
+public final double getPrice() {
+return calculatePrice(); // minst 25% av nyvärdet 
+}
+
+protected abstract double calculatePrice();
+	
+}
+
+
+			CAR KLASSEN!
+
+
+public class Car extends Fordon(){
+private double usage;
+private int wear;
+
+public Car(double price){
+super(price);
+this.usage = usage;
+this.wear = wear;
+}
+
+@Override
+public double calculatePrice(){
+	//beräkna priset för en bil
+
+
+	return price - usage * wear;
+
+}
+
+}
+
+
+			MC-KLASSEN!
+public class MC extends Fordon(){
+private double age;
+
+public MC(double price, double age){
+super(price);
+this.age = age;
+}
+
+public double calculatePrice(){
+return 0; // beräkna pris för MC!!!
+}
+
+}
+
+
+
+			FORDONSPAKET-KLASSEN!
+
+public class Fordonspaket implements Item(){
+
+private String name;
+private double  ;
+private List<Item> items;
+}
+
+public FordonsPaket(String name, double discount,double price){
+this.name = name; 
+this.discount = discount; 
+super(price); 
+items = new ArrayList<>();
+ 
+}
+
+
+
+public void addItem(Item item) {
+items.add(item);
+} 
+
+
+public double getPrice(){
+ double result = 0;
+if (discount >= 5 && discount <= 75) {
+	result = 	
+}
+}
+
+
+
+
+
+
+   		ANDRA VERSION:
+
+// Skapa ett interface (som mall-klassen(fordon) implementerar!!
+
+
+public interface Item {
+ double getValue();
+ 
+}
+
+			FORDON-KLASS
+
+
+abstract class Fordon implements Item(){
+private double nypris;
+
+// konstruktor
+protected Fordon(double nypris){
+ this.nypris = nypris;
+
+}
+//hämta nypris
+
+public final double getNypris(){
+ return nypris;
+}
+
+
+//Kollar så att värdet överstiger 25% av nypriset!! Samt fördelar ner computeValue-metoden ner till subklasserna!!
+
+
+ @Override
+  public double getValue (){
+   double value = computeValue();
+   return Math.max(value, getNypris() * 0.25);
+
+
+}
+
+protected abstract double computeValue();
+
+}
+
+			BIL-KLASS
+
+
+public class Bil extends fordon (){
+private int slitage;
+private double km;
+
+// konstruktor
+
+public Fordon(double nypris, int slitage, double km){
+super(nypris);
+this.slitage = slitage; 
+this.km = km;
+
+} 
+
+@Override
+public double computeValue() {
+
+//beräkna värdet på bilar
+return getNypris() - km * slitage;
+
+
+}
+
+			MC-KLASS
+
+
+
+public class MC extends Fordon(){
+private double age;
+
+
+//konstruktor
+
+public MC(double price, double age){
+super(nypris);
+this.age = age;
+
+} 
+
+
+@Override
+public double computeValue() {
+
+//beräkna värdet på MC:s
+return getNypris() - age * 1000;
+
+}
+
+			FORDONSPAKET-KLASS
+
+
+public class Fordonspaket(){
+private String namn;
+private int rabatt;
+private List<Item> items;
+
+//konstruktor:
+
+public Fordonspaket(String namn, int rabatt){
+this.namn = namn;
+this.rabatt = rabatt;
+items = new ArrayList<>();
+
+
+//addItem-metod'
+
+public void addItem(Item item){
+ items.add(item);
+}
+
+
+
+@Override
+public double getValue(){
+
+//-hämta värdet som inte är densamma som för MC och Bil. 
+}
+
+
+
+EX-TENTA 2022-08-06
+
+public interface Music{
+
+int getPlaytime();
+
+}
+
+			
+
+
+			MUSICCOLLECTION-KLASS(ABSTRACT)
+
+
+
+
+public abstract class MusicCollection implements Music(){
+
+public abstract List<Song> getSongs();
+
+public List <String> getArtist(){
+	List <String> list = new ArrayList<>();
+	for ( Song song : getSongs()){
+		String artist = song.getArtist();
+		list.add(artist);
+}
+
+	return list;
+
+}
+
+@Override 
+public int getPlaytime(){
+	int sum = 0;
+	for (Song song : song.getSongs()){
+		int playtime = song.getPlaytime();
+		sum += playtime
+		
+
+} 
+	return sum;
+
+}
+
+
+
+
+
+
+
+				PLAYLIST-KLASS
+
+
+public class Playlist extends MusicCollection(){
+private String name;
+private List<Song> songs;
+
+
+
+public Playlist(String name, List<Song> songs) {
+this.name = name;
+this.songs = new ArrayList<>();
+
+
+}
+
+
+public void addMusic(Song song){
+	songs.add(song);
+}
+
+public void addMusic(MusicCollection Collection) {
+	songs.addAll(Collection.getSongs());
+}
+
+@Override
+public List<Song> getSongs(){
+	return Collections.unmodifiableList(songs);
+}
+}				
+
+
+				ALBUM-KLASS
+
+
+
+public class Album extends MusicCollection () {
+private String artist;
+private List<Song> songs;
+
+public Album(String artist, List<Song> songs){
+this.artist = artist;
+this.songs = new ArrayList<>(songs);
+
+}
+
+public String getArtist() {
+	return artist;
+
+}
+
+@Override
+public List<Song> getSongs(){
+	return Collections.unmodifiableList(songs);
+
+
+}
+}
+
+
+				SONG-KLASS
+
+
+public class Song implements Music(){
+private String artist;
+private String title;
+private int playTime:
+
+
+
+Public Song(String artist, String title, Int playTime){
+this.arist = artist;
+this.title = title; 
+this.playTime = playTime;
+
+
+}
+
+public String getArtist(){
+	return artist;
+}
+
+public String getTitle() {
+	return title;
+}
+
+@Override
+public int getPlaytime(){
+	return playTime;
+
+}
+}
+
+
+
+
+
+fråga 3. DATASTRUKTURER
+
+
+om det är en treemap = behöver vi implementera comparable<T> samt skriva en compareTo metod.
+
+compareTo metoden kan skrivas:
+
+
+
+int compareTo(Time other){
+	int result = hour - other.hour;
+	if(hour == other.hour) {
+		result = minute - other.minute;
+
+}
+
+return result;
+
+om det är en HASHMAP eller HashSet så behöver vi en hashcode och en equals metod.
+
+public int hashcode(){
+return Objects.hash(namn, vikt); 
+}
+
+
+
+
+
+fråga 4)
+
+class ButtonHandler implements EventHandler<ActionEvent) {
+
+public void handle (ActionEvent event) {
+string regNr = regField.getText();
+String selectedRegNr = regList.getSelectionModel().getSelectedItem();
+if(selectedRegNr != null && skattRegiser.contiansKey(selectedRegNr){
+rubrik.setText("att betala: " + skattRegister.get(selectedRegNr));
+return;
+
+
+
+try{
+
+double co2 = Double.parseDouble(co2Field.getText());
+double vikt = Double.parseDouble(regField.getText());
+double skatt = segelBox.isSelected() ? co2 * vikt * 2 : co2 * vikt;
+
+rubrik.setText("att betala: " + skatt);
+
+if(!regNr.isEmpty()) {
+skattRegister.put(regNr, skatt);
+if(!regList.getItems().contains(regNr){
+	regList.getItems.add(regNr);
+
+
+
+} Catch (NumberFormatException e){
+
+Alert alert = new Alert(Alert.AlertType.ERROR, "Felaktig Inmatning! ");
+alert.showAndWait();
+
+
+
+
+
+
+

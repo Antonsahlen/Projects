@@ -1,0 +1,151 @@
+frågor granskning:
+
+Tror jag har lite dåligt eller klumpigt upplagda metoder, 
+
+hade ni lagt "inputkontroller" i inputReader istället? 
+
+Tips på bättre metodnamn? 
+
+
+Statisk och inte statiska variabler? i Dog och inputReader
+
+Är eran lista i dogcollection final?
+
+
+
+
+
+
+
+
+Anteckningar från seminariet: 
+
+
+Stil:
+
+maxValue() ist för MAX_DOG_AGE?
+
+Dogregister: 
+
+
+
+
+Kanske döpa om felmeddelande metoderna till noDogsError och noOwnersError exempelvis
+
+
+owner private attribut i Dog??
+
+ska arrayen i OwnerCollection ligga som en instansvariabel?
+
+
+
+
+Struktur:
+
+
+
+Samlingsklasser:
+
+
+
+ownerCollection, 
+
+
+
+kolla lite extra på så att komparatorer(rätt komparator) används och inte Collections.sort etc.
+kolla vart användningen ligger på dogSorter. 
+
+
+
+i get getOwners ist för list.sort(comparator….				//FIXAT
+kanske använda Collections.sort?					//FIXAT
+
+removeOwner( String o) 							//FIXAT
+kan anropa den andra remove metoden ( för att korta ner koden!)		--
+
+
+Sorteringsklass:
+
+
+
+Inläsningsklass: 
+
+
+
+se kommentar nedan!
+
+
+Kommandoloop:
+
+
+flytta trim() på alla inläsningar till inputReader:
+
+
+
+Henriks Genomgång av klassdiagram:
+
+
+ordning på metoder:								
+
+get set överst									//KOLLA ORDNINGEN PÅ METODER IGEN!
+
+sen add remove
+
+sen generella (är inget krav)
+
+
+dela upp setOwner som doSetOwner och doRemoveowner				//FIXAT, MEN KOLLA EN GÅNG TILL OM BESTÄM DIG
+
+i setOwner -> if(null ) --> doRemoveOwner						---
+
+
+
+
+
+contains och remove i OwnerCollection samt DogCollection 				//FiXXAT
+	
+ska jobba med varandra! minska kodduplicering!! specielt i OwnerCollection  		//FIXAT!
+
+
+
+RemoveOwner(owner) BÖR anropa removeOwner(String)				//FIXAT!!
+
+samma med contains!					//FIXAT
+
+
+
+
+
+USED_STREAMS ArrayList ist för set!!   		//FIXAT
+
+
+
+Close Scanner metod i inputReader (kan vara bra)		
+
+
+
+clearBuffer(): void					//FIXAT
+
+och använd i readInt och readDouble			--
+
+ta bort scanner.nextLine() 				--
+
+
+
+
+KONSTANTER FÖR KOMMANDONA!! I DOGREGISTER!		//FIXAT
+
+
+
+SKA JAG HA MENY I LOOPEN? BESTÄM DIG
+
+
+
+KOLLA IGENOM DUPLICERING AV KOD I DOGREGISTER NOGA!
+(exempelvis inläsningar från inputReader)
+
+
+
+
+
+

@@ -1,0 +1,668 @@
+VERSION 3 56 AV 58: 
+
+SAKER ATT FIXA:
+-inte blanda svenska och engelska
+-titta igenom koden(se till att förstå den)
+-titta på logiken i att ta bort en ägare eller en hund. (Tror jag kan ha missförstått uppgiften där)
+
+
+
+import java.util.ArrayList;
+
+public class DogRegister {
+    private static final int EXIT_COMMAND = 0;
+    private static final int REGISTER_NEW_OWNER = 1;
+    private static final int REGISTER_NEW_DOG = 2;
+    private static final int REMOVE_OWNER = 3;
+    private static final int LIST_OWNERS = 4;
+    private static final int LIST_DOGS = 5;
+    private static final int GIVE_DOG_TO_OWNER = 6;
+    private static final int REMOVE_DOG = 7;
+    private static final int REMOVE_DOG_FROM_OWNER = 8;
+    private static final int INCREASE_AGE = 9;
+
+
+
+    private InputReader inputReader = new InputReader();
+    private DogCollection dogRegister = new DogCollection();
+    private OwnerCollection ownerRegister = new OwnerCollection();
+
+
+    private void start() {
+        Initialize();
+        runCommandoLoop();
+        exitCommand();
+    }
+
+    private void exitCommand() {
+        System.out.println("Exiting program");
+
+    }
+
+    private void runCommandoLoop() {
+        int command;
+        do {
+            command = readCommand();
+            if (command >= 0) {
+                handleCommand(command);
+            }
+
+        } while (command != EXIT_COMMAND);
+    }
+
+
+    /*private void commandMenu() {
+        System.out.println("Välj ett av alternativen 1-5");
+        System.out.println("1. Registrera ny ägare");
+        System.out.println("2. Registrera ny hund");
+        System.out.println("3. Ta bort ägare");
+        System.out.println("4. Lista ägare");
+        System.out.println("5. Lista hund");
+        System.out.println("6. Ge hund till ägare");
+        System.out.println("7. Ta bort hund");
+        System.out.println("8. Ta bort hund från ägare");
+        System.out.println("9. Öka hundens ålder");
+        System.out.println("0. Avsluta");
+    }*/
+
+    private void handleCommand(int command) {
+
+        switch (command) {
+            case REGISTER_NEW_OWNER:                               //Byta NAMN!!
+                registerNewOwner();
+                break;
+            case REGISTER_NEW_DOG:
+                registerNewDog();
+                break;
+            case REMOVE_OWNER:
+                removeOwner();
+                break;
+            case LIST_OWNERS:
+                listOwners();
+                break;
+            case LIST_DOGS:
+                listDogs();
+                break;
+            case GIVE_DOG_TO_OWNER:
+                giveDogToOwner();
+                break;
+            case REMOVE_DOG:
+                removeDog();
+                break;
+            case REMOVE_DOG_FROM_OWNER:
+                removeDogFromOwner();
+                break;
+            case INCREASE_AGE:
+                increaseAge();
+                break;
+            case EXIT_COMMAND:
+                break;
+            default:
+                System.out.println("Fel kommando");
+
+        }
+    }
+
+    private void increaseAge() {
+        if(dogRegister.getDogs().isEmpty()) {
+            System.out.println("Fel, det finns inga hundar registrerade");
+            return;
+        }
+
+        String name = inputReader.readLine("Ange hundens namn").trim();
+
+        if (name.isEmpty() || name.isBlank()) {
+            System.out.println("Fel, hundens namn saknas");
+            return;
+        }
+        Dog dog = dogRegister.getDog(name);
+
+        if (dog == null) {
+            System.out.println("Fel, hundens namn saknas");
+            return;
+        }
+        dog.increaseAge();
+        System.out.println(dog.getName() + " Är nu " + dog.getAge() + " år gammal");
+
+    }
+
+    private void removeDogFromOwner() {
+
+            if (dogRegister.getDogs().isEmpty()) {
+                System.out.println("Fel, det finns inga hundar registrerade");
+                return;
+            }
+
+            if(ownerRegister.getOwners().isEmpty()) {
+                System.out.println("Fel, det finns ägare registrerade");
+                return;
+            }
+            String dogName = inputReader.readLine("Vilken hund ska tas bort från sin ägare").trim();
+            if (dogName.isEmpty()) {
+                System.out.println("Fel, inget namn angavs");
+                return;
+            }
+
+            Dog dog = dogRegister.getDog(dogName);
+            if (dog == null) {
+                System.out.println("Fel, hunden finns inte");
+                return;
+            }
+
+            if (dog.getOwner() == null) {
+                System.out.println("Fel, hunden har ingen ägare");
+                return;
+            }
+
+            dog.setOwner(null);
+            System.out.println(dog.getName() + " har tagits bort från sin ägare");
+        }
+
+
+
+
+    //ÄNDRA!!!!!
+    private void giveDogToOwner() {
+        if(dogRegister.getDogs().isEmpty()) {
+            System.out.println("Fel, det finns inga hundar registrerade");
+            return;
+        }
+        if(ownerRegister.getOwners().isEmpty()) {
+            System.out.println("Fel, det finns inga ägare registrerade");
+            return;
+        }
+        String dogName = inputReader.readLine("Vilken hund ska ges bort").trim();
+
+
+        if (dogName.isEmpty()) {
+            System.out.println("Fel, hundens namn saknas");
+            return;
+        }
+
+        Dog dog = dogRegister.getDog(dogName);
+        if (dog == null) {
+            System.out.println("Fel, hunden finns inte");
+            return;
+        }
+
+        if (dog.getOwner() != null){
+            System.out.println("Fel, hunden har redan en ägare");
+            return;
+        }
+
+        String ownerName = inputReader.readLine("Vem ska bli ägare").trim();
+
+        if (ownerName.isEmpty() || ownerName == null) {
+            System.out.println("Fel, ägaren finns inte");
+            return;
+        }
+
+        Owner owner = ownerRegister.getOwner(ownerName);
+        if (owner == null) {
+            System.out.println("Fel, ägaren finns inte");
+            return;
+        }
+
+
+        dog.setOwner(owner);
+
+    }
+
+
+    private void listDogs() {
+        if (dogRegister.getDogs().isEmpty()) {
+            System.out.println("Fel, inga hundar är registrerade");
+            return;
+        }
+
+        double minTailLength = inputReader.readDouble("Ange minsta svanslängd");
+        ArrayList<Dog> matchingDogs = dogRegister.getDogsMinTailLength(minTailLength);
+
+        if (matchingDogs.isEmpty()) {
+            System.out.println("Fel, inga hundar med tillräcklig svanslängd");
+            return;
+        }
+
+        for (Dog dog : matchingDogs) {
+            System.out.println(dog);
+        }
+    }
+
+
+    private void registerNewDog() {
+        String name;
+        while (true) {
+            name = inputReader.readLine("Hundens namn").trim();
+            if (name.isEmpty()) {
+                System.out.println("Fel");
+                continue;
+            }
+            if (dogRegister.getDog(name) != null) {
+                System.out.println("Fel");
+                return;
+            }
+            break;
+        }
+
+        String breed;
+        while (true) {
+            breed = inputReader.readLine("Hundens ras").trim();
+            if (breed.isEmpty()) {
+                System.out.println("Fel");
+                continue;
+            }
+            break;
+        }
+
+        int age = inputReader.readInt("Hundens ålder");
+        int weight = inputReader.readInt("Hundens vikt");
+
+        Dog dog = new Dog(name, breed, age, weight);
+        dogRegister.addDog(dog);
+        System.out.println(dog);
+    }
+
+
+    private void registerNewOwner() {
+        while (true) {
+            String name = inputReader.readLine("Ange ägarens namn").trim();
+
+            if (name == null || name.isBlank()) {
+                System.out.println("Fel");
+
+            } else if (ownerRegister.containsOwner(name)) {
+                System.out.println("Fel, ägaren finns redan");
+                break;
+
+            } else {
+                Owner newOwner = new Owner(name);
+                ownerRegister.addOwner(newOwner);
+                System.out.println("Ny ägare registrerad: " + newOwner.getName());
+                break;
+            }
+
+        }
+    }
+
+    private void removeOwner() {
+
+        if (ownerRegister.getOwners().isEmpty()) {
+            System.out.println("Fel, det finns inga registrerade ägare");
+            return;
+        }
+
+        String nameToRemove = inputReader.readLine("Ange namnet på ägaren som ska tas bort");
+
+        if (nameToRemove.isEmpty() || nameToRemove.isBlank()) {
+            System.out.println("Fel");
+            return;
+        }
+
+        Owner ownerToRemove = ownerRegister.getOwner(nameToRemove);
+        if (ownerToRemove == null) {
+            System.out.println("Fel");
+            return;
+        }
+        if (!ownerToRemove.getDogs().isEmpty()) {
+            System.out.println("Fel, " + ownerToRemove.getName() + " äger fortfarande hundar och kan inte tas bort");
+            return;
+        }
+
+        boolean removed = ownerRegister.removeOwner(ownerToRemove);
+        if (removed) {
+            System.out.println(ownerToRemove.getName() + " har tagits bort");
+        } else {
+            System.out.println("Fel, det gick inte att ta bort ägaren");
+        }
+    }
+
+
+
+
+    private void removeDog() {
+
+        if (dogRegister.getDogs().isEmpty()) {
+            System.out.println("Fel, det finns inga hundar registrerade");
+            return;
+        }
+
+        String name = inputReader.readLine("Ange namnet på hunden som ska tas bort");
+        Dog dog = dogRegister.getDog(name);
+
+        if(dog == null){
+            System.out.println("Fel, hunden finns inte");
+            return;
+        }
+        if(dog.getOwner() != null){
+            System.out.println("Fel, " + dog.getName() + " har redan en ägare och kan inte tas bort");
+            return;
+
+        }
+        boolean removed = dogRegister.removeDog(dog);
+        if(removed) {
+            System.out.println(dog.getName() + " har tagits bort");
+        } else {
+            System.out.println("Fel, det inte gick att ta bort hunden");
+        }
+
+        }
+
+
+    private void listOwners() {
+        ArrayList<Owner> owners = ownerRegister.getOwners();
+
+        if (owners.isEmpty()) {
+            System.out.println("Fel, inga ägare är registrerade");
+            return;
+        }
+
+        System.out.println("Registrerade ägare: ");
+        for (Owner owner : owners) {
+            System.out.println(owner);
+        }
+    }
+
+
+
+    private int readCommand() {
+
+        String inputLine = inputReader.readLine("Enter command").trim();
+
+        if (inputLine.equalsIgnoreCase("exit")) {
+            return EXIT_COMMAND;
+        }
+        if (inputLine.equalsIgnoreCase("REGISTER NEW OWNER")) {
+            return REGISTER_NEW_OWNER;
+        }
+        if (inputLine.equalsIgnoreCase("REGISTER NEW DOG")) {
+            return REGISTER_NEW_DOG;
+        }
+        if (inputLine.equalsIgnoreCase("LIST OWNERS")) {
+            return LIST_OWNERS;
+        }
+        if (inputLine.equalsIgnoreCase("REMOVE OWNER")) {
+            return REMOVE_OWNER;
+        }
+        if (inputLine.equalsIgnoreCase("LIST DOGS")) {
+            return LIST_DOGS;
+        }
+        if(inputLine.equalsIgnoreCase("GIVE DOG TO OWNER")){
+            return GIVE_DOG_TO_OWNER;
+        }
+        if (inputLine.toUpperCase().startsWith("GIVE ")) {              //Behövs denna?
+            return GIVE_DOG_TO_OWNER;
+        }
+        if(inputLine.equalsIgnoreCase("REMOVE DOG")){
+            return REMOVE_DOG;
+        }
+        if(inputLine.equalsIgnoreCase("REMOVE DOG FROM OWNER")){
+            return REMOVE_DOG_FROM_OWNER;
+        }
+        if(inputLine.equalsIgnoreCase("INCREASE AGE")){
+            return INCREASE_AGE;
+        }
+
+        try {
+            int command = Integer.parseInt(inputLine);
+            if (command >= 0 && command <= 4) {
+                return command;
+            } else {
+                System.out.println("Fel kommando, försök igen");
+                return -1;
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Fel kommando, försök igen");
+            return -1;
+        }
+
+    }
+
+    private void Initialize() {                     //Ta bort??
+        System.out.println("Initializing program");
+
+    }
+
+    public static void main(String[] args) {
+        new DogRegister().start();
+    }
+}
+
+
+
+
+2025-08-05:
+SETOWNER
+
+	public boolean setOwner(Owner newOwner) {
+		if (newOwner == null) {
+			if (this.owner != null) {
+				this.owner.removeDog(this);
+				this.owner = null;
+				return true;
+			}
+			return false;
+		}
+
+		if (this.owner != null) {
+			return false;
+		}
+
+		this.owner = newOwner;
+		newOwner.addDog(this);
+		return true;
+	}
+
+REMOVE OWNER i OWNERCOLLECTION:
+
+public boolean removeOwner(Owner owner) {
+        if (owner == null || !owner.getDogs().isEmpty()) {
+            return false;
+        }
+
+        for (int i = 0; i < size; i++) {
+            if (owners[i].equals(owner)) {
+                for (int j = i; j < size - 1; j++) {
+                    owners[j] = owners[j + 1];
+                }
+                owners[size - 1] = null;
+                size--;
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+REMOVEOWNER I DOGREGISTER: 
+
+private void removeOwner() {
+
+        if (ownerRegister.getOwners().isEmpty()) {
+            System.out.println("Fel, det finns inga registrerade ägare");
+            return;
+        }
+
+        String nameToRemove = inputReader.readLine("Ange namnet på ägaren som ska tas bort");
+
+        if (nameToRemove.isEmpty() || nameToRemove.isBlank()) {
+            System.out.println("Fel");
+            return;
+        }
+
+        Owner ownerToRemove = ownerRegister.getOwner(nameToRemove);
+        if (ownerToRemove == null) {
+            System.out.println("Fel");
+            return;
+        }
+        if (!ownerToRemove.getDogs().isEmpty()) {
+            System.out.println("Fel, " + ownerToRemove.getName() + " äger fortfarande hundar och kan inte tas bort");
+            return;
+        }
+
+        boolean removed = ownerRegister.removeOwner(ownerToRemove);
+        if (removed) {
+            System.out.println(ownerToRemove.getName() + " har tagits bort");
+        } else {
+            System.out.println("Fel, det gick inte att ta bort ägaren");
+        }
+    }
+
+REMOVEDOG I DOGREGISTER:
+
+ private void removeDog() {
+
+        if (dogRegister.getDogs().isEmpty()) {
+            System.out.println("Fel, det finns inga hundar registrerade");
+            return;
+        }
+
+        String name = inputReader.readLine("Ange namnet på hunden som ska tas bort");
+        Dog dog = dogRegister.getDog(name);
+
+        if(dog == null){
+            System.out.println("Fel, hunden finns inte");
+            return;
+        }
+        if(dog.getOwner() != null){
+            System.out.println("Fel, " + dog.getName() + " har redan en ägare och kan inte tas bort");
+            return;
+
+        }
+        boolean removed = dogRegister.removeDog(dog);
+        if(removed) {
+            System.out.println(dog.getName() + " har tagits bort");
+        } else {
+            System.out.println("Fel, det inte gick att ta bort hunden");
+        }
+
+        }
+
+
+
+i själva användar interaktionen:
+i list dogs skrivs detta ut: Owner = Owner: Linda
+  Dogs: Linnea, räcker med bara ägarnamnet. 
+
+Kolla även om jag måste hålla mig till antingen svenska eller engelska!
+
+REMOVE DOG I DOGREGISTER:
+
+ private void removeDog() {
+
+        if (dogRegister.getDogs().isEmpty()) {
+            System.out.println("Fel, det finns inga hundar registrerade");
+            return;
+        }
+
+        String name = inputReader.readLine("Ange namnet på hunden som ska tas bort");
+        Dog dog = dogRegister.getDog(name);
+
+        if(dog == null){
+            System.out.println("Fel, hunden finns inte");
+            return;
+        }
+        if(dog.getOwner() != null){
+            System.out.println("Fel, " + dog.getName() + " har redan en ägare och kan inte tas bort");
+            return;
+
+        }
+        boolean removed = dogRegister.removeDog(dog);
+        if(removed) {
+            System.out.println(dog.getName() + " har tagits bort");
+        } else {
+            System.out.println("Fel, det inte gick att ta bort hunden");
+        }
+
+        }
+
+REMOVEOWNER I DOGREGISTER:
+
+    private void removeOwner() {
+
+        if (ownerRegister.getOwners().isEmpty()) {
+            System.out.println("Fel, det finns inga registrerade ägare");
+            return;
+        }
+
+        String nameToRemove = inputReader.readLine("Ange namnet på ägaren som ska tas bort");
+
+        if (nameToRemove.isEmpty() || nameToRemove.isBlank()) {
+            System.out.println("Fel");
+            return;
+        }
+
+        Owner ownerToRemove = ownerRegister.getOwner(nameToRemove);
+        if (ownerToRemove == null) {
+            System.out.println("Fel");
+            return;
+        }
+        if (!ownerToRemove.getDogs().isEmpty()) {
+            System.out.println("Fel, " + ownerToRemove.getName() + " äger fortfarande hundar och kan inte tas bort");
+            return;
+        }
+
+        boolean removed = ownerRegister.removeOwner(ownerToRemove);
+        if (removed) {
+            System.out.println(ownerToRemove.getName() + " har tagits bort");
+        } else {
+            System.out.println("Fel, det gick inte att ta bort ägaren");
+        }
+    }
+
+
+
+
+TESTPROGRAM FÖR DOGSORTER:
+
+
+// TESTPROGRAM:
+/*public static void main(String[] args) {
+	ArrayList<Dog> dogs = new ArrayList<>();
+   
+	dogs.add(new Dog("Buddy", "Boston Terrier", 10, 20));
+	dogs.add(new Dog("Charlie", "Terrier", 5, 15));
+	dogs.add(new Dog("Max", "Tax", 10, 5));
+	dogs.add(new Dog("Oscar", "DACHSHUND", 3, 10));
+	dogs.add(new Dog("Rocky", "Schäfer", 3, 25));
+    
+    System.out.println("Before sorting:");
+    for (Dog dog : dogs) {
+        System.out.println(dog);
+    }
+
+    // Skapa en DogTailNameComparator
+    DogTailNameComparator comparator = new DogTailNameComparator();
+
+    // Sortera listan med hjälp av sortDogs-metoden och DogTailNameComparator
+    int swapCounter = sortDogs(comparator, dogs);
+
+    // Skriv ut listan efter sortering
+    System.out.println("\nAfter sorting:");
+    for (Dog dog : dogs) {
+        System.out.println(dog);
+    }
+
+    // Skriv ut antalet byten
+    System.out.println("\nNumber of swaps: " + swapCounter);
+}
+
+}
+    
+*/
+
+
+OWNERCOLLECTION: GETOWNERS METOD
+
+ public ArrayList<Owner> getOwners() {
+        ArrayList<Owner> list = new ArrayList<>();
+        for (Owner owner : owners) {
+            if (owner != null) {
+                list.add(owner);
+            }
+
+        }
+        list.sort(Comparator.comparing(o -> o.getName().toLowerCase()));
+        return list;
+    }
+
+

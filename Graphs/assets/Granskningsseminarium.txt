@@ -1,0 +1,24 @@
+frågor granskning:
+
+
+Statisk och inte statiska variabler? i Dog och inputReader
+
+Är eran lista i dogcollection final?
+
+
+
+
+Dogregister: 
+
+hade ni lagt "inputkontroller" i inputReader istället? 
+
+Tips på bättre metodnamn? 
+
+
+
+
+
+Anteckningar från seminariet: 
+
+
+

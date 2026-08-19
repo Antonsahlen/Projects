@@ -1,0 +1,83 @@
+Finansiering, ex från boken
+s.357
+
+Blöt: 
+NPV = 
+
+50000 * 1/r * (1- 1 / (1 + r)^k
+==
+30 229
+
+
+Annuitet = NPV * annf(r; k)  = 8385,5
+
+annf(r; k) = 0.2774
+
+Plask:
+
+Nusumma år 1-3 = 84 259,25
+
+nusumma år 4- 7 = 1000 * (3.6046-2,1065) = 1498.1
+
+NPV = 85757,35 - 100 000 = -14 242
+
+Annuitet= NPV*annf(r;k) = -14242 * 0.2774 = -3950
+
+
+
+
+
+
+
+VÅT
+
+Nuvärde år 1: 75000 + (år 2) 34.722.222222 + 
+
+nusumma år 3- 7 : 10000 * (3,6046-1,5278) = 20768 
+
+nuvärde Restvärde: 5581, 63 
+
+NPV = 136 071,85 - 150 000 = -13 928,14
+
+Annuitet = -3863
+
+
+anteckningar plugg:
+
+de sju viktigaste intressenterna för ett företag enligt intressentmodellen: 
+
+kunderna, leverentörerna, ägarna, samhället(stat och kommun), långivare, företagsledningen och sist men inte minst de anställda. 
+
+vad har dessa för relation till ett företag?
+
+Kunderna - vill ha bra varor för ett rimligt pris och företaget får som belöning bra betalt för sina varor. 
+
+Leverentörerna - Vill ha
+
+
+
+
+
+organisationslivcykel
+
+spädbarnsstadiet
+barnstadiet
+ungdomsstadiet
+blomstringsstadiet
+mognadsstadiet
+det aristokratiska stadiet
+den bankrutta aristokratins stadium
+den tidiga byråkratiska stadiet
+den senila byråkratins stadie
+död 
+
+
+företagets livscykel:
+etablering, tillväxt, mognad, nedgång, förnyelse eller avecklingsfas
+
+
+
+
+
+
+

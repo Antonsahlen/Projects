@@ -1,0 +1,78 @@
+PROG 2, TENTA-PLUGG
+
+1. D (skulle kunna vara A, är ju bra för indexering med är det effektivt?)  	R
+
+2. A  	R
+
+3. B	R	
+
+4. D	-
+
+5. A	R
+
+6. B 	R
+
+7. C (chansning)	-	
+
+8. B		R
+
+9. C		R
+
+10. A		R
+
+
+
+Ex-Tenta 2022-05-28
+
+
+a). C 		R
+
+b). A		R
+
+c). D ( eller är det A?)		R
+
+d). B			R
+
+e). C			R
+
+f). A (uteslutningsmetod?) F	
+
+g). A		R
+
+h). A		R	
+
+i). C 		F- När en ex skapar en bufferedinputstream enligt:
+BufferedInputStream bis = new BufferedInputStrem(new FileinputStream("enfil.txt"));   kallas detta för DECORATOR PATTERN !
+
+j) 
+
+k)
+
+l)
+
+m)
+
+n)
+
+o)
+
+p) D 		R
+
+q) C 	R
+
+r) D	F - 
+ 
+Vid try and catch block. Finally-blocket körs OAVSETT om ett exception kastas eller inte. 	
+
+s) C 	R
+
+t) B  	F 
+
+
+
+
+
+
+
+
+
